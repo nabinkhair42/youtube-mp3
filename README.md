@@ -2,7 +2,7 @@
 
 A full-stack application that allows users to extract audio from YouTube videos and download them as MP3 files or stream them directly.
 
-![App Realtime Image](image.png)
+![App Realtime Image](/public/image.png)
 
 ## Features
 
