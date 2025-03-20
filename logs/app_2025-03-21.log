@@ -1,0 +1,18 @@
+2025-03-21 05:42:27 | INFO | root | Logging initialized. Log file: C:\Users\nabin\OneDrive\Desktop\link-videos\logs\app_2025-03-21.log
+2025-03-21 05:42:27 | INFO | root | yt-dlp version: 2023.11.16
+2025-03-21 05:42:27 | WARNING | root | FFmpeg not found. Audio extraction will use native formats instead of MP3.
+2025-03-21 05:42:27 | INFO | root | To install FFmpeg manually, run: python setup_ffmpeg.py
+2025-03-21 05:42:27 | INFO | root | Starting API server...
+2025-03-21 05:42:28 | INFO | root | Logging initialized. Log file: C:\Users\nabin\OneDrive\Desktop\link-videos\logs\app_2025-03-21.log
+2025-03-21 05:42:28 | INFO | root | yt-dlp version: 2023.11.16
+2025-03-21 05:42:28 | WARNING | root | FFmpeg not found. Audio extraction will use native formats instead of MP3.
+2025-03-21 05:42:28 | INFO | root | To install FFmpeg manually, run: python setup_ffmpeg.py
+2025-03-21 05:42:28 | INFO | root | Logging initialized. Log file: C:\Users\nabin\OneDrive\Desktop\link-videos\logs\app_2025-03-21.log
+2025-03-21 05:42:28 | INFO | root | yt-dlp version: 2023.11.16
+2025-03-21 05:42:28 | WARNING | root | FFmpeg not found. Audio extraction will use native formats instead of MP3.
+2025-03-21 05:42:28 | INFO | root | To install FFmpeg manually, run: python setup_ffmpeg.py
+2025-03-21 05:42:45 | INFO | youtube_controller | [407232] Getting video info for URL: https://youtu.be/7wtfhZwyrcc
+2025-03-21 05:42:48 | INFO | youtube_extractor | Getting video info for: https://youtu.be/7wtfhZwyrcc
+2025-03-21 05:42:51 | INFO | youtube_extractor | Successfully retrieved video info: Imagine Dragons - Believer (Official Music Video)
+2025-03-21 05:42:51 | INFO | youtube_controller | [407232] Successfully retrieved info for: Imagine Dragons - Believer (Official Music Video)
+2025-03-21 05:42:51 | INFO | root | GET /api/youtube/info completed in 6.2773s
