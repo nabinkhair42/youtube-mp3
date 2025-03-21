@@ -8,3 +8,13 @@
 2025-03-21 06:56:17 | INFO | root | yt-dlp version: 2023.11.16
 2025-03-21 06:56:17 | WARNING | root | FFmpeg not found. Audio extraction will use native formats instead of MP3.
 2025-03-21 06:56:17 | INFO | root | To install FFmpeg manually, run: python setup_ffmpeg.py
+2025-03-21 07:01:08 | INFO | root | Logging initialized. Log file: C:\Users\nabin\OneDrive\Desktop\link-videos\logs\app_2025-03-21.log
+2025-03-21 07:01:08 | INFO | root | Logging initialized
+2025-03-21 07:01:09 | INFO | root | yt-dlp version: 2023.11.16
+2025-03-21 07:01:09 | WARNING | root | FFmpeg not found. Audio extraction will use native formats instead of MP3.
+2025-03-21 07:01:09 | INFO | root | To install FFmpeg manually, run: python setup_ffmpeg.py
+2025-03-21 07:01:09 | INFO | root | Logging initialized. Log file: C:\Users\nabin\OneDrive\Desktop\link-videos\logs\app_2025-03-21.log
+2025-03-21 07:01:09 | INFO | root | Logging initialized
+2025-03-21 07:01:09 | INFO | root | yt-dlp version: 2023.11.16
+2025-03-21 07:01:09 | WARNING | root | FFmpeg not found. Audio extraction will use native formats instead of MP3.
+2025-03-21 07:01:09 | INFO | root | To install FFmpeg manually, run: python setup_ffmpeg.py
