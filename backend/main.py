@@ -1,10 +1,13 @@
 import os
 import sys
-from pathlib import Path
 import time
+from pathlib import Path
 
-# Set up logging first before any other imports
-from utils.logger import setup_logging, get_logger
+# Configure Python path to find app modules
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Set up logging
+from app.utils.logger import setup_logging, get_logger
 logger = setup_logging()
 
 # Check for dependencies
@@ -36,14 +39,15 @@ def check_dependencies():
 # Check dependencies before starting the app
 check_dependencies()
 
-# Import FastAPI components after dependency check
+# Import FastAPI components
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-# Import routes after FastAPI imports
-from routes.youtube_routes import router as youtube_router
+# Import routes
+from app.routes.youtube_routes import router as youtube_router
 
+# Create FastAPI app
 app = FastAPI(
     title="YouTube Audio Extractor API",
     description="API for extracting audio from YouTube videos",
@@ -75,6 +79,11 @@ app.include_router(youtube_router, prefix="/api")
 async def root():
     return {"message": "YouTube Audio Extractor API is running"}
 
+@app.get("/api/health")
+async def health_check():
+    """Health check endpoint for Vercel."""
+    return {"status": "ok", "message": "API is healthy"}
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     logger.error(f"Unhandled exception: {str(exc)}", exc_info=True)
@@ -83,6 +92,7 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"detail": "An unexpected error occurred. Please try again later."}
     )
 
+# For local development
 if __name__ == "__main__":
     import uvicorn
     logger.info("Starting API server...")

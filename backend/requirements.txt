@@ -4,4 +4,3 @@ python-multipart==0.0.6
 pydantic==2.4.2
 requests==2.31.0
 yt-dlp==2023.11.16
-ffmpeg-python==0.2.0
