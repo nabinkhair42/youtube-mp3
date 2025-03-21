@@ -45,18 +45,33 @@ def validate_youtube_url(url):
         return False
         
     try:
+        # Simple pattern matching first to avoid unnecessary API calls
+        youtube_pattern = r'^(https?://)?(www\.)?(youtube\.com|youtu\.?be)/.+$'
+        import re
+        if not re.match(youtube_pattern, url):
+            logger.warning(f"URL doesn't match YouTube pattern: {url}")
+            return False
+            
         # Use yt-dlp to validate
         ydl_opts = {
             'quiet': True,
             'skip_download': True,
             'no_warnings': True,
             'http_headers': {'User-Agent': random.choice(USER_AGENTS)},
+            'cookiefile': None,  # Avoid cookie issues
         }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.extract_info(url, download=False)
             return True
-    except:
+    except Exception as e:
+        logger.error(f"URL validation error: {str(e)}")
+        if "Sign in to confirm you're not a bot" in str(e):
+            # Specific error for bot detection
+            raise HTTPException(
+                status_code=429, 
+                detail="YouTube has detected too many requests. Please try again later or a different video."
+            )
         return False
 
 def get_video_info(url):
@@ -67,6 +82,7 @@ def get_video_info(url):
             'skip_download': True,
             'no_warnings': True,
             'http_headers': {'User-Agent': random.choice(USER_AGENTS)},
+            'cookiefile': None,  # Avoid cookie issues
         }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -82,6 +98,12 @@ def get_video_info(url):
             }
     except Exception as e:
         logger.error(f"Error getting video info: {str(e)}")
+        if "Sign in to confirm you're not a bot" in str(e):
+            # Specific error for bot detection
+            raise HTTPException(
+                status_code=429, 
+                detail="YouTube has detected too many requests. Please try again later or a different video."
+            )
         return None
 
 def get_stream_url(url):
@@ -136,14 +158,25 @@ async def health_check():
 @app.get("/api/youtube/info")
 async def get_youtube_info(url: str = Query(..., description="YouTube video URL")):
     """Get information about a YouTube video."""
-    if not validate_youtube_url(url):
-        raise HTTPException(status_code=400, detail="Invalid YouTube URL")
-        
-    info = get_video_info(url)
-    if not info:
-        raise HTTPException(status_code=404, detail="Failed to fetch video information")
-        
-    return info
+    try:
+        if not validate_youtube_url(url):
+            raise HTTPException(status_code=400, detail="Invalid YouTube URL")
+            
+        info = get_video_info(url)
+        if not info:
+            raise HTTPException(status_code=404, detail="Failed to fetch video information")
+            
+        return info
+    except HTTPException:
+        raise
+    except Exception as e:
+        error_msg = str(e)
+        if "Sign in to confirm you're not a bot" in error_msg:
+            raise HTTPException(
+                status_code=429, 
+                detail="YouTube has detected too many requests. Please try again later or a different video."
+            )
+        raise HTTPException(status_code=500, detail=f"An error occurred: {error_msg}")
 
 @app.get("/api/youtube/stream-url")
 async def get_youtube_stream_url(url: str = Query(..., description="YouTube video URL")):

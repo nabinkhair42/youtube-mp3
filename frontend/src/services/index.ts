@@ -4,7 +4,6 @@ import {
   VideoInfo, 
   StreamUrlResponse, 
   AudioExtractionForm,
-  
 } from '@/types';
 
 // YouTube related services
@@ -62,13 +61,28 @@ export const youtubeServices = {
       
       // It's a direct file download
       return response.data as Blob;
-    } catch (error) {
+    } catch (error: any) {
+      // Check for rate limiting or bot detection
+      if (error.response?.status === 429) {
+        throw new Error(error.response?.data?.detail || 
+          "YouTube has detected too many requests. Please try again later or try a different video.");
+      }
+      
       // If direct download fails, try to get stream URL
       console.error('Direct download failed, falling back to stream URL', error);
-      const response = await axiosInstance.get<StreamUrlResponse>(
-        `${API_ROUTES.YOUTUBE_STREAM_URL}?url=${encodeURIComponent(url)}`
-      );
-      return response.data;
+      try {
+        const response = await axiosInstance.get<StreamUrlResponse>(
+          `${API_ROUTES.YOUTUBE_STREAM_URL}?url=${encodeURIComponent(url)}`
+        );
+        return response.data;
+      } catch (streamError: any) {
+        // If stream URL also fails with bot detection
+        if (streamError.response?.status === 429) {
+          throw new Error(streamError.response?.data?.detail || 
+            "YouTube has detected too many requests. Please try again later or try a different video.");
+        }
+        throw streamError;
+      }
     }
   },
 

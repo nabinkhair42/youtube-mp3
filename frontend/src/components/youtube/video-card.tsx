@@ -26,6 +26,7 @@ interface ApiError {
     data?: {
       detail?: string;
     };
+    status?: number;
   };
   message: string;
 }
@@ -97,7 +98,17 @@ export function VideoCard({
     },
     onError: (error: ApiError) => {
       toast.dismiss();
-      toast.error(error.response?.data?.detail || "Failed to extract audio");
+      const errorMessage = error.response?.data?.detail || error.message || "Failed to extract audio";
+      
+      // Check for rate limiting error
+      if (error.response?.status === 429) {
+        toast.error(errorMessage, {
+          description: "Try a different video or wait a few minutes and try again.",
+          duration: 5000
+        });
+      } else {
+        toast.error(errorMessage);
+      }
     },
     onSettled: () => {
       setIsDownloading(false);

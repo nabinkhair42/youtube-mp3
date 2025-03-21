@@ -18,6 +18,7 @@ interface ApiError {
     data?: {
       detail?: string;
     };
+    status?: number;
   };
   message: string;
 }
@@ -33,9 +34,19 @@ export function UrlInput({ onVideoInfoReceived }: UrlInputProps) {
     },
 
     onError: (error: ApiError) => {
-      toast.error(
-        error.response?.data?.detail || "Failed to retrieve video information"
-      );
+      const errorMessage = error.response?.data?.detail || 
+        error.message || 
+        "Failed to retrieve video information";
+        
+      // Check for rate limiting error
+      if (error.response?.status === 429) {
+        toast.error(errorMessage, {
+          description: "Try a different video or wait a few minutes and try again.",
+          duration: 5000
+        });
+      } else {
+        toast.error(errorMessage);
+      }
     },
   });
 
