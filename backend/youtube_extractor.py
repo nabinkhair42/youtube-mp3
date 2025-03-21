@@ -5,7 +5,7 @@ import random
 from typing import Optional, Tuple, Dict, Any
 import re
 import yt_dlp
-from utils.logger import get_logger
+from backend.logger import get_logger
 import shutil
 
 logger = get_logger("youtube_extractor")

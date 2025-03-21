@@ -2,8 +2,8 @@ import os
 from fastapi import HTTPException, Response
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 import requests
-from utils.youtube_extractor import YouTubeExtractor
-from utils.logger import get_logger
+from youtube_extractor import YouTubeExtractor
+from backend.logger import get_logger
 
 logger = get_logger("youtube_controller")
 

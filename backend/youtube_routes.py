@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Query
-from controllers.youtube_controller import YouTubeController
+from youtube_controller import YouTubeController
 
 router = APIRouter(
     prefix="/youtube",
