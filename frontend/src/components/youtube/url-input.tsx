@@ -32,17 +32,18 @@ export function UrlInput({ onVideoInfoReceived }: UrlInputProps) {
       toast.success("Video information retrieved!");
       onVideoInfoReceived(data);
     },
-
     onError: (error: ApiError) => {
       const errorMessage = error.response?.data?.detail || 
         error.message || 
         "Failed to retrieve video information";
         
-      // Check for rate limiting error
-      if (error.response?.status === 429) {
-        toast.error(errorMessage, {
-          description: "Try a different video or wait a few minutes and try again.",
-          duration: 5000
+      // Check for rate limiting error or bot detection
+      if (error.response?.status === 429 || 
+          errorMessage.includes("Sign in to confirm") || 
+          errorMessage.includes("bot")) {
+        toast.error("YouTube Bot Protection Triggered", {
+          description: "YouTube is blocking automated access right now. Try a different video, wait 15-20 minutes, or try from a different network.",
+          duration: 8000
         });
       } else {
         toast.error(errorMessage);
