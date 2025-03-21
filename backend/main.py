@@ -4,7 +4,7 @@ from pathlib import Path
 import time
 
 # Set up logging first before any other imports
-from app.utils.logger import setup_logging, get_logger
+from utils.logger import setup_logging, get_logger
 logger = setup_logging()
 
 # Check for dependencies
@@ -42,7 +42,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 # Import routes after FastAPI imports
-from app.routes.youtube_routes import router as youtube_router
+from routes.youtube_routes import router as youtube_router
 
 app = FastAPI(
     title="YouTube Audio Extractor API",
