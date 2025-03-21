@@ -5,7 +5,8 @@
       "src": "main.py",
       "use": "@vercel/python",
       "config": {
-        "maxLambdaSize": "50mb"
+        "maxLambdaSize": "50mb",
+        "runtime": "python3.9"
       }
     }
   ],
@@ -18,5 +19,8 @@
   "env": {
     "PYTHONUNBUFFERED": "1"
   },
-  "installCommand": "pip install -r requirements.txt"
+  "buildCommand": "pip install -r requirements.txt && python build_utils.py",
+  "installCommand": "pip install -r requirements.txt",
+  "devCommand": "uvicorn main:app --reload --host 0.0.0.0 --port 8000",
+  "outputDirectory": "."
 }

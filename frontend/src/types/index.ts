@@ -3,7 +3,7 @@ export interface ApiResponse<T> {
   data: T;
   status: number;
   statusText: string;
-  headers: any;
+  headers: Record<string, string>;
 }
 
 // YouTube Video Info Types

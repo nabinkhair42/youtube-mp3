@@ -1,6 +1,6 @@
 "use client";
 
-import { VideoInfo } from "@/types";
+import { VideoInfo, StreamUrlResponse } from "@/types";
 import {
   Card,
   CardContent,
@@ -13,11 +13,21 @@ import { useMutation } from "@tanstack/react-query";
 import { youtubeServices } from "@/services";
 import { toast } from "sonner";
 import { useState } from "react";
+import Image from "next/image";
 
 interface VideoCardProps {
   videoInfo: VideoInfo;
   onAudioResponse: (blob: Blob, filename: string) => void;
-  onStreamResponse: (streamData: any) => void;
+  onStreamResponse: (streamData: StreamUrlResponse) => void;
+}
+
+interface ApiError {
+  response?: {
+    data?: {
+      detail?: string;
+    };
+  };
+  message: string;
 }
 
 export function VideoCard({
@@ -74,10 +84,10 @@ export function VideoCard({
     },
     onSuccess: (data) => {
       toast.dismiss();
-      if ((data as any).type === "stream") {
+      if ((data as StreamUrlResponse).type === "stream") {
         // It's a stream URL response
         toast.success("Audio stream ready!");
-        onStreamResponse(data);
+        onStreamResponse(data as StreamUrlResponse);
       } else {
         // It's a direct file download (blob)
         toast.success("Audio extracted successfully!");
@@ -85,7 +95,7 @@ export function VideoCard({
         onAudioResponse(data as Blob, filename);
       }
     },
-    onError: (error: any) => {
+    onError: (error: ApiError) => {
       toast.dismiss();
       toast.error(error.response?.data?.detail || "Failed to extract audio");
     },
@@ -105,11 +115,16 @@ export function VideoCard({
   return (
     <Card className="overflow-hidden">
       <div className="relative aspect-video overflow-hidden">
-        <img
-          src={videoInfo.thumbnail_url}
-          alt={videoInfo.title}
-          className="w-full h-full object-cover"
-        />
+        <div className="relative w-full h-full">
+          <Image
+            src={videoInfo.thumbnail_url}
+            alt={videoInfo.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+            priority
+          />
+        </div>
         <div className="absolute bottom-2 right-2 bg-black/75 text-white px-2 py-1 rounded text-xs">
           {formatDuration(videoInfo.length_seconds)}
         </div>

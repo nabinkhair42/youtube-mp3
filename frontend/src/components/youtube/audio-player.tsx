@@ -21,6 +21,7 @@ import {
   ExternalLink,
   Download,
 } from "lucide-react";
+import Image from "next/image";
 
 interface AudioPlayerProps {
   streamData: StreamUrlResponse;
@@ -108,6 +109,7 @@ export function AudioPlayer({ streamData, onClose }: AudioPlayerProps) {
       audio.pause();
     } else {
       audio.play().catch((err) => {
+        console.error("Error playing audio", err);
         if (!useProxy) {
           setUseProxy(true);
           toast.info("Trying alternative streaming method...");
@@ -168,10 +170,11 @@ export function AudioPlayer({ streamData, onClose }: AudioPlayerProps) {
       </CardHeader>
       <CardContent>
         <div className="w-full h-[160px] mb-4 bg-muted rounded-md overflow-hidden">
-          <img
+          <Image
             src={streamData.thumbnail}
             alt={streamData.title}
             className="w-full h-full object-cover"
+            fill
           />
         </div>
 

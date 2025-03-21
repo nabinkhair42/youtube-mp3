@@ -49,7 +49,7 @@ export default function HomePage() {
         <UrlInput onVideoInfoReceived={handleVideoInfoReceived} />
       </div>
 
-      {videoInfo && (
+      {videoInfo && videoInfo !== null && (
         <div className="max-w-2xl mx-auto mb-8">
           <VideoCard 
             videoInfo={videoInfo} 
@@ -59,7 +59,7 @@ export default function HomePage() {
         </div>
       )}
 
-      {streamData && (
+      {streamData && streamData !== null && (
         <div className="max-w-2xl mx-auto">
           <AudioPlayer 
             streamData={streamData} 
@@ -75,9 +75,9 @@ export default function HomePage() {
               <h2 className="text-xl font-semibold mb-2">How to use</h2>
               <ol className="text-left list-decimal pl-5 space-y-2">
                 <li>Paste a YouTube video URL in the input field above</li>
-                <li>Click the "Extract Audio" button to retrieve video information</li>
-                <li>Click "Download Audio" to extract and download the audio</li>
-                <li>If direct download is not available, you'll get a player to stream the audio</li>
+                <li>Click the &quot;Extract Audio&quot; button to retrieve video information</li>
+                <li>Click &quot;Download Audio&quot;  to extract and download the audio</li>
+                <li>If direct download is not available, you&apos;ll get a player to stream the audio</li>
               </ol>
             </CardContent>
           </Card>
